@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/todoListFragment">
+
+    <fragment
+        android:id="@+id/todoListFragment"
+        android:name="com.kenny.todolist_app.view.fragment.TodoListFragment"
+        android:label="任務清單" >
+        <action
+            android:id="@+id/action_to_add"
+            app:destination="@id/addTodoFragment" />
+        <action
+            android:id="@+id/action_to_edit"
+            app:destination="@id/editTodoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addTodoFragment"
+        android:name="com.kenny.todolist_app.view.fragment.AddTodoFragment"
+        android:label="新增任務" />
+
+    <fragment
+        android:id="@+id/editTodoFragment"
+        android:name="com.kenny.todolist_app.view.fragment.EditTodoFragment"
+        android:label="編輯任務">
+        <argument
+            android:name="todoId"
+            app:argType="integer"/>
+    </fragment>
+</navigation>
