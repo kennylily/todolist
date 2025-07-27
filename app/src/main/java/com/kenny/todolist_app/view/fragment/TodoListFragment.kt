@@ -38,6 +38,11 @@ class TodoListFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onStart() {
+        super.onStart()
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +56,7 @@ class TodoListFragment : Fragment() {
         // 設置 RecyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         // 觀察 ViewModel 的 todoList
+        viewModel.getAllTodos()
         viewModel.todoList.observe(viewLifecycleOwner) { todos ->
             adapter = ToDoAdapter(todos) {
                     todoItem ->
@@ -61,6 +67,7 @@ class TodoListFragment : Fragment() {
                 findNavController().navigate(R.id.action_to_edit)
             }
             binding.recyclerView.adapter = adapter
+            //viewModel.getAllTodos()
         }
 
         viewModel.fetchToDos()
