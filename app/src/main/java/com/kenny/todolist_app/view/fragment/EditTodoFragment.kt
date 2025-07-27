@@ -52,6 +52,7 @@ class EditTodoFragment : Fragment(),View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         binding.buttonSave.setOnClickListener(this)
         binding.buttonDelete.setOnClickListener(this)
+        binding.textViewBack.setOnClickListener(this)
         viewModel.todoDetail.observe(viewLifecycleOwner) { todo ->
             // 更新 UI 元素
             binding.editTitle.setText(todo.todo)
@@ -87,11 +88,13 @@ class EditTodoFragment : Fragment(),View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
+            R.id.textView_back->{
+                requireActivity().onBackPressed()
+            }
             R.id.button_save -> {
                 // 保存修改
                 val updatedTodo = binding.editTitle.text.toString()
                 val isCompleted = binding.checkboxCompletechecked.isChecked
-                Log.d("test","${int_taskID}")
                 // 更新任務
                 viewModel.updateTodoDetail(todoItem =
                     ToDoItem(

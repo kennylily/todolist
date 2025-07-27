@@ -26,6 +26,9 @@ class TodoViewModel(application: Application) : AndroidViewModel(application){
         viewModelScope.launch {
             try {
                 val response = RetrofitInstance.api.getToDos()
+                _todoList.value = response.todos.map {
+                    ToDoItem(it.id, it.todo, it.completed, it.userId)
+                }
                 for (todo in response.todos) {
                     insert(
                         Todo(

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.kenny.todolist_app.R
 import com.kenny.todolist_app.databinding.FragmentAddTodoBinding
@@ -37,10 +38,22 @@ class AddTodoFragment : Fragment(),View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.buttonSave.setOnClickListener(this)
+        binding.textViewBack.setOnClickListener(this)
         viewModel.todoDetail.observe(viewLifecycleOwner) { todo ->
             // 更新 UI 元素
             binding.editTitle.setText(todo.todo)
             binding.checkboxCompletechecked.isChecked = todo.completed
+        }
+        viewModel.todoModifySuccess.observe(viewLifecycleOwner){ success ->
+            if (success) {
+                // 修改成功，返回上一頁
+                Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+                requireActivity().onBackPressed()
+            } else {
+                // 修改失敗，顯示錯誤訊息
+                Toast.makeText(requireContext(), "Fail", Toast.LENGTH_SHORT).show()
+                Log.e("AddTodoFragment", "新增任務失敗")
+            }
         }
     }
 
@@ -51,6 +64,9 @@ class AddTodoFragment : Fragment(),View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
+            R.id.textView_back->{
+                requireActivity().onBackPressed()
+            }
             R.id.button_save -> {
                 var todoText = binding.editTitle.text.toString()
                 var isCompleted = binding.checkboxCompletechecked.isChecked

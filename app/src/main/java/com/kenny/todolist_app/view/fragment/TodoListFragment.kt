@@ -1,6 +1,7 @@
 package com.kenny.todolist_app.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,7 +41,6 @@ class TodoListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
     }
 
     override fun onCreateView(
@@ -54,23 +54,22 @@ class TodoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 設置 RecyclerView
+
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        // 觀察 ViewModel 的 todoList
         viewModel.getAllTodos()
+        // 觀察 ViewModel 的 todoList
         viewModel.todoList.observe(viewLifecycleOwner) { todos ->
             adapter = ToDoAdapter(todos) {
                     todoItem ->
                 // 在這裡處理點擊事件
-                Toast.makeText(requireContext(), "點擊了: ${todoItem.id}", Toast.LENGTH_SHORT).show()
                 (requireContext() as MainActivity).set_taskID(todoItem.id)
                 // 導航到編輯任務頁面
                 findNavController().navigate(R.id.action_to_edit)
             }
             binding.recyclerView.adapter = adapter
-            //viewModel.getAllTodos()
         }
 
-        viewModel.fetchToDos()
+
         binding.buttonAddTask.setOnClickListener {
             findNavController().navigate(R.id.action_to_add)
         }
@@ -82,10 +81,7 @@ class TodoListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // 發起 API 請求
-        /*if(MainActivity().get_should_reload()) {
-            viewModel.fetchToDos()
-            MainActivity().set_should_reload(bool_should = false)
-        }*/
+        viewModel.fetchToDos()
 
     }
 
